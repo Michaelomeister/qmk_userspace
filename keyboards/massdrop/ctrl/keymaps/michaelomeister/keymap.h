@@ -1,8 +1,7 @@
 #include QMK_KEYBOARD_H
 #include <print.h>
 #include <string.h>
-// HID has not yet been implemented for this keyboard
-// #include "raw_hid.h"
+#include <lib/lib8tion/lib8tion.h>
 
 #define MILLISECONDS_IN_SECOND 1000
 

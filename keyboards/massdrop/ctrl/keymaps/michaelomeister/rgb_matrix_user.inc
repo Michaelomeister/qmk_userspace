@@ -10,15 +10,15 @@ static HSV multinexus_backlight_math(HSV hsv, int16_t dx, int16_t dy, uint8_t di
     if ((effect == 255) && (hsv.h != rgb_matrix_config.hsv.h)) {
       //hsv.v = 100;
       //hsv.h = rgb_matrix_config.hsv.h + dy / 4;
-      hsv.h	= abs(rgb_matrix_config.hsv.h - 78);
+        hsv.h	= abs(rgb_matrix_config.hsv.h - 78);
     } else {
-      hsv.v = qadd8(hsv.v, 255 - effect);
-      hsv.h = rgb_matrix_config.hsv.h;// + dy / 4;
+        hsv.v = qadd8(hsv.v, 255 - effect);
+        hsv.h = rgb_matrix_config.hsv.h;// + dy / 4;
       //hsv.h	= 206;
     }
     if (hsv.v <= 85){
       //hsv.h = rgb_matrix_config.hsv.h + dy / 4;
-      hsv.h	= abs(rgb_matrix_config.hsv.h - 78);
+        hsv.h	= abs(rgb_matrix_config.hsv.h - 78);
     }
     return hsv;
 }
@@ -47,7 +47,7 @@ bool multinexus_backlight_runner(uint8_t start, effect_params_t* params, reactiv
 }
 
 static bool multinexus_backlight(effect_params_t* params) {
-  return multinexus_backlight_runner(0, params, &multinexus_backlight_math);
+    return multinexus_backlight_runner(0, params, &multinexus_backlight_math);
 }
 
 #endif // RGB_MATRIX_CUSTOM_EFFECT_IMPLS

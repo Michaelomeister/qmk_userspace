@@ -8,12 +8,12 @@ bool     spam_enter;
 uint16_t spam_timer    = false;
 uint16_t spam_interval = 3000;  // (1000ms == 1s)
 
-#if defined(KEY_CANCELLATION_ENABLE)
-const key_cancellation_t PROGMEM key_cancellation_list[] = {
-    [0] = {KC_D, KC_A},
-    [1] = {KC_A, KC_D},
-};
-#endif
+// #if defined(KEY_CANCELLATION_ENABLE)
+// const key_cancellation_t PROGMEM key_cancellation_list[] = {
+//     [0] = {KC_D, KC_A},
+//     [1] = {KC_A, KC_D},
+// };
+// #endif
 
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for backslash, twice for F13
@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   KC_MPLY, KC_MSTP, KC_VOLU, \
         _______, RGB_SPD, RGB_VAI, RGB_SPI, RGB_HUI, RGB_SAI, _______, _______, _______, _______, _______, _______, _______, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
         _______, RGB_RMOD,RGB_VAD, RGB_MOD, RGB_HUD, RGB_SAD, _______, _______, _______, _______, _______, _______, _______, \
-        _______, RGB_TOG, U_T_AUTO, U_T_AGCR, DBG_TOG, MD_BOOT, NK_TOGG, _______, _______, KX_CATG, KC_GFN_AFK, _______,                         _______, \
+        _______, RGB_TOG, U_T_AUTO, U_T_AGCR, DBG_TOG, MD_BOOT, NK_TOGG, _______, _______, _______, KC_GFN_AFK, _______,                         _______, \
         _______, _______, _______,                   _______,                            _______, _______, _______, _______,            _______, _______, _______ \
     ),
     [2] = LAYOUT(
@@ -228,10 +228,28 @@ void set_layer_color(int layer) {
     }
 }
 
+void set_underglow_rgb_matrix(void) {
+    HSV     hsv  = rgb_matrix_config.hsv;
+    uint8_t time = scale16by8(g_rgb_timer, rgb_matrix_config.speed / 5);
+    for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
+        switch (rgb_matrix_get_flags()) {
+            case LED_FLAG_ALL:
+            case LED_FLAG_UNDERGLOW:
+                if (HAS_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+                    hsv.h = g_led_config.point[i].x - time;
+                    RGB rgb = hsv_to_rgb(hsv);
+                    rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+                }
+                break;
+        }
+    }
+}
+
 bool rgb_matrix_indicators_user(void) {
     if (disable_layer_color || rgb_matrix_get_flags() == LED_FLAG_NONE || rgb_matrix_get_flags() == LED_FLAG_UNDERGLOW) {
         return false;
     }
     set_layer_color(get_highest_layer(layer_state));
+    set_underglow_rgb_matrix();
     return false;
 }
