@@ -1,4 +1,4 @@
-                                                                                                                                        // Copyright 2018-2022 Nick Brassel (@tzarc)
+// Copyright 2018-2022 Nick Brassel (@tzarc)
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include QMK_KEYBOARD_H
 #include "theme_djinn_default.h"
@@ -6,46 +6,50 @@
 // Layer definitions
 enum { _QWERTY, _LOWER, _RAISE, _ADJUST };
 
+enum custom_keycodes {
+    MAC_TOGGLE = SAFE_RANGE
+};
+
 //----------------------------------------------------------
 // Key map
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT(
-        KC_ESC,   KC_1,   KC_2,    KC_3,    KC_4,      KC_5,    KC_GRV,                              KC_DEL,  KC_6,     KC_7,      KC_8,    KC_9,    KC_0,    KC_BSPC,
+        QK_GESC,  KC_1,   KC_2,    KC_3,    KC_4,      KC_5,    KC_GRV,                              KC_DEL,  KC_6,     KC_7,      KC_8,    KC_9,    KC_0,    KC_BSPC,
         KC_TAB,   KC_Q,   KC_W,    KC_E,    KC_R,      KC_T,    KC_LBRC,                             KC_RBRC, KC_Y,     KC_U,      KC_I,    KC_O,    KC_P,    KC_BSLS,
         KC_LCTL,  KC_A,   KC_S,    KC_D,    KC_F,      KC_G,    KC_HOME,                             KC_PGUP, KC_H,     KC_J,      KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,      KC_B,    KC_END,                              KC_PGDN, KC_N,     KC_M,      KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-                                   KC_LGUI, MO(_LOWER),KC_SPC,  KC_ENT,                              KC_ENT,  KC_SPC,   MO(_RAISE),KC_LALT,
-                                                                      RM_PREV,               RM_NEXT,
+        KC_LSFT,  KC_Z,   KC_X,    KC_C,    KC_V,      KC_B,    KC_END,                              KC_PGDN, KC_N,     KC_M,      KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+                                   KC_LALT, KC_LGUI,  KC_SPC,  MO(_LOWER),                          MO(_RAISE),  KC_SPC,  KC_BSPC,KC_ENT,
+                                                                    KC_MPLY,               KC_MUTE,
                                                        KC_UP,                                                 KC_UP,
-                                            KC_LEFT,   _______, KC_RIGHT,                            KC_LEFT, _______, KC_RIGHT,
+                                            KC_LEFT,   KC_ENT, KC_RIGHT,                            KC_LEFT, KC_ENT, KC_RIGHT,
                                                        KC_DOWN,                                               KC_DOWN
     ),
     [_LOWER] = LAYOUT(
-        KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,     KC_F5,   _______,                             _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, _______, KC_UP,   _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
-        KC_CAPS, _______, _______, _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
-                                   _______, _______,   _______, _______,                             _______, _______, _______, _______,
-                                                                      BL_DOWN,               BL_UP,
+        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,     KC_F5,   _______,                             _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
+        _______, _______, KC_UP,   _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, KC_F12,
+        _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______,   _______, NK_TOGG,                             DT_UP,   _______, _______, _______, _______, _______, _______,
+        KC_CAPS, _______, _______, _______, _______,   _______, AU_TOGG,                             DT_DOWN, _______, _______, _______, _______, _______, _______,
+                                   KC_RALT, _______,   _______, _______,                             MO(_ADJUST), _______, _______, _______,
+                                                                    RM_PREV,               RM_NEXT,
                                                      _______,                                               _______,
                                             _______,   _______, _______,                             _______, _______, _______,
                                                      _______,                                               _______
     ),
     [_RAISE] = LAYOUT(
-        KC_F12, KC_F1,   KC_F2,    KC_F3,   KC_F4,     KC_F5,   _______,                             _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______,_______, KC_UP,    _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
+        KC_ESC, KC_F1,   KC_F2,    KC_F3,   KC_F4,     KC_F5,   _______,                             _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
+        _______,_______, KC_UP,    _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, KC_F12,
         _______,KC_LEFT, KC_DOWN,  KC_RIGHT,_______,   KC_UNDS, KC_NO,                               KC_NO,   KC_EQL,  _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,   KC_MINS, KC_NO,                               KC_NO,   KC_PLUS, _______, _______, _______, _______, _______,
-                                   _______, _______,   _______, _______,                             _______, _______, _______, _______,
-                                                                      _______,               _______,
+                                   _______, _______,   _______, MO(_ADJUST),                             _______, _______, _______, _______,
+                                                                    BL_DOWN,               BL_UP,
                                                      _______,                                               _______,
                                             _______,   _______, _______,                             _______, _______, _______,
                                                      _______,                                               _______
     ),
     [_ADJUST] = LAYOUT(
-        _______, KC_CAPS, KC_NUM,  KC_SCRL, _______,   _______, _______,                             _______, _______, _______, _______, DB_TOGG, EE_CLR,  QK_BOOT,
+        QK_REBOOT, KC_CAPS, KC_NUM,  KC_SCRL, KC_RCTL,   _______, _______,                           _______, _______, _______, _______, DB_TOGG, EE_CLR,  QK_BOOT,
         _______, _______, _______, _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, _______,
@@ -63,10 +67,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // clang-format off
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [_QWERTY] = { ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
-    [_LOWER]  = { ENCODER_CCW_CW(RM_HUED, RM_HUEU),           ENCODER_CCW_CW(RM_SATD, RM_SATU)  },
-    [_RAISE]  = { ENCODER_CCW_CW(RM_VALD, RM_VALU),           ENCODER_CCW_CW(RM_SPDD, RM_SPDU)  },
-    [_ADJUST] = { ENCODER_CCW_CW(RM_PREV, RM_NEXT),           ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
+    [_QWERTY] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
+    [_LOWER]  = { ENCODER_CCW_CW(RM_HUED, RM_HUEU), ENCODER_CCW_CW(RM_SATD, RM_SATU)  },
+    [_RAISE]  = { ENCODER_CCW_CW(RM_VALD, RM_VALU), ENCODER_CCW_CW(RM_SPDD, RM_SPDU)  },
+    [_ADJUST] = { ENCODER_CCW_CW(RM_PREV, RM_NEXT), ENCODER_CCW_CW(KC_LEFT, KC_RIGHT) },
 };
 // clang-format on
 
@@ -104,4 +108,17 @@ void housekeeping_task_user(void) {
 
     // Data sync from master to slave
     theme_state_sync();
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    uprintf("kc: %s\n", get_keycode_string(keycode));
+    switch (keycode) {
+        case LCTL_T(MAC_TOGGLE):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(LCTL(KC_SPACE)); // Send LCTL + SPACE on tap
+                return false;
+            }
+            break;
+    }
+    return true;
 }

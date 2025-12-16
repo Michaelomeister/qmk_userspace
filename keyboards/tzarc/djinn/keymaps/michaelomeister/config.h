@@ -6,10 +6,14 @@
 // #define DJINN_SUPPORTS_3A_FUSE
 
 // Encoder settings
+
 #define ENCODER_RESOLUTION 2
 
 // LCD blanking period
 #define LCD_ACTIVITY_TIMEOUT 30000
+
+// Tapping term
+#define TAPPING_TERM 140
 
 // RGB settings
 #define RGB_MATRIX_KEYPRESSES
