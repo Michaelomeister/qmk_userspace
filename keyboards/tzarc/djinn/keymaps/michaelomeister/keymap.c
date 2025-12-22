@@ -1,7 +1,7 @@
 // Copyright 2018-2022 Nick Brassel (@tzarc)
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include QMK_KEYBOARD_H
-#include "theme_djinn_default.h"
+#include "theme.h"
 
 // Layer definitions
 enum { _QWERTY, _LOWER, _RAISE, _ADJUST };
@@ -30,7 +30,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,     KC_F5,   _______,                             _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         _______, _______, KC_UP,   _______, _______,   _______, _______,                             _______, _______, _______, _______, _______, _______, KC_F12,
         _______, KC_LEFT, KC_DOWN, KC_RIGHT,_______,   _______, NK_TOGG,                             DT_UP,   _______, _______, _______, _______, _______, _______,
-        KC_CAPS, _______, _______, _______, _______,   _______, AU_TOGG,                             DT_DOWN, _______, _______, _______, _______, _______, _______,
+        KC_CAPS, _______, _______, _______, _______,   DJ_POWR, AU_TOGG,                             DT_DOWN, _______, _______, _______, _______, _______, _______,
                                    KC_RALT, _______,   _______, _______,                             MO(_ADJUST), _______, _______, _______,
                                                                     RM_PREV,               RM_NEXT,
                                                      _______,                                               _______,
@@ -60,6 +60,96 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                      _______,                                               _______
     )
 };
+
+#define __OFF__ {RGB_BLACK}
+#define RED {RGB_RED}
+#define CORAL {RGB_CORAL}
+#define ORANGE {RGB_ORANGE}
+#define GOLDEN {RGB_GOLDENROD}
+#define GOLD {RGB_GOLD}
+#define YELLOW {RGB_YELLOW}
+#define CHART {RGB_CHARTREUSE}
+#define GREEN {RGB_GREEN}
+#define SPRING {RGB_SPRINGGREEN}
+#define TURQ {RGB_TURQUOISE}
+#define TEAL {RGB_TEAL}
+#define CYAN {RGB_CYAN}
+#define AZURE {RGB_AZURE}
+#define BLUE {RGB_BLUE}
+#define PURPLE {RGB_PURPLE}
+#define MAGENT {RGB_MAGENTA}
+#define PINK {RGB_PINK}
+#define WHITE {RGB_WHITE}
+
+const uint8_t PROGMEM ledmap[][RGB_MATRIX_LED_COUNT][3] = {
+    [_LOWER] = {
+        // underglow left side
+        SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING,
+
+                                    ORANGE, __OFF__,   __OFF__, __OFF__,
+
+        GREEN, __OFF__, __OFF__, __OFF__, __OFF__,   __OFF__, SPRING,
+        __OFF__, BLUE, BLUE, BLUE,__OFF__,   __OFF__, MAGENT,
+        __OFF__, __OFF__,  __OFF__, __OFF__, BLUE, __OFF__, __OFF__,
+        RED,  GOLD,   GOLD,   GOLD,   GOLD,     GOLD,   __OFF__,
+
+        // underglow right side
+        SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING, SPRING,
+
+        __OFF__, __OFF__, __OFF__, __OFF__,
+        TEAL, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, TEAL,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, GOLD,
+        GOLD, GOLD,   GOLD,   GOLD,   GOLD,   GOLD,  __OFF__
+
+
+    },
+    [_RAISE] = {
+        // underglow left side
+        BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE,
+
+                                    __OFF__, __OFF__,   __OFF__, __OFF__,
+
+        __OFF__, CYAN, __OFF__, __OFF__, __OFF__,   __OFF__, SPRING,
+        __OFF__, BLUE, BLUE, BLUE,__OFF__,   TURQ, __OFF__,
+        __OFF__, __OFF__,  __OFF__, __OFF__, BLUE, __OFF__, __OFF__,
+        RED,  GOLD,   GOLD,   GOLD,   GOLD,     GOLD,   __OFF__,
+
+        // underglow right side
+        BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE, BLUE,
+
+        __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, MAGENT, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, PURPLE, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, GOLD,
+        GOLD, GOLD,   GOLD,   GOLD,   GOLD,   GOLD,  __OFF__
+
+    },
+    [_ADJUST] = {
+         // underglow left side
+        PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK,
+
+        __OFF__, __OFF__,   __OFF__, __OFF__,
+
+        __OFF__, CYAN, __OFF__, __OFF__, __OFF__,   __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__,__OFF__,   __OFF__, __OFF__,
+        __OFF__, __OFF__,  __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        CORAL,  GREEN,   BLUE,   YELLOW,   GOLD,     GOLD,   __OFF__,
+
+        // underglow right side
+        PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK, PINK,
+
+        __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__, __OFF__,
+        PURPLE, PINK,   TURQ,   __OFF__,   __OFF__,   __OFF__,  __OFF__
+    }
+};
+
+extern rgb_config_t rgb_matrix_config;
+bool disable_layer_color;
+
 // clang-format on
 
 //----------------------------------------------------------
@@ -121,4 +211,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
     }
     return true;
+}
+
+void set_layer_color(int layer) {
+    if (layer == _QWERTY) {
+        return;
+    }
+    for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
+        RGB rgb = {
+            .r = pgm_read_byte(&ledmap[layer][i][0]),
+            .g = pgm_read_byte(&ledmap[layer][i][1]),
+            .b = pgm_read_byte(&ledmap[layer][i][2]),
+        };
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+    }
+}
+
+bool rgb_matrix_indicators_user(void) {
+    if (disable_layer_color || rgb_matrix_get_flags() == LED_FLAG_NONE || rgb_matrix_get_flags() == LED_FLAG_UNDERGLOW) {
+        return false;
+    }
+    set_layer_color(get_highest_layer(layer_state));
+    return false;
 }

@@ -5,6 +5,16 @@
 .DS_Store
 ._*
 
+# Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.webp
+
 # Firmware files
 *.hex
 *.bin

@@ -5,14 +5,14 @@ AUDIO_ENABLE = no
 NKRO_ENABLE = yes
 DYNAMIC_TAPPING_TERM_ENABLE = yes
 KEYCODE_STRING_ENABLE = yes
-VPATH += keyboards/tzarc/djinn/graphics
+VPATH += $(KEYMAP_PATH)/graphics
 SRC += \
-	theme_djinn_default.c \
-	djinn.qgf.c \
+	theme.c \
+	frieren.qgf.c \
 	lock-caps-ON.qgf.c \
 	lock-scrl-ON.qgf.c \
 	lock-num-ON.qgf.c \
 	lock-caps-OFF.qgf.c \
 	lock-scrl-OFF.qgf.c \
 	lock-num-OFF.qgf.c \
-	thintel15.qff.c
+	unispace18.qff.c
